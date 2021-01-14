@@ -23,9 +23,14 @@ environment:
 dependencies:
   animated_splash_screen: ^1.0.1+2
   font_awesome_flutter: ^8.11.0
+  flutter_absolute_path: ^1.0.6
+  page_transition: ^1.1.7+6
+  path_provider: ^1.6.27
   flutter_glow: ^0.1.2
   im_stepper: ^0.1.2+9
   google_fonts: ^1.1.1
+  camera: 0.5.8+17
+  path: ^1.7.0
   flutter:
     sdk: flutter
 

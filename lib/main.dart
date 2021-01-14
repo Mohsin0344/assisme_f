@@ -1,13 +1,15 @@
-
-import 'package:assisme/Screens/Explore_Employer_Screen.dart';
-import 'package:assisme/Screens/HomeScreenNavbar.dart';
+import 'package:assisme/Screens/RecordCameraEmployer.dart';
 import 'package:assisme/Screens/SplashScreen.dart';
-import 'package:assisme/Screens/steepper.dart';
 import 'package:flutter/material.dart';
 import 'package:assisme/size_config.dart';
 import 'styling.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+    home: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -17,12 +19,8 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           builder: (context, orientation) {
             SizeConfig().init(constraints, orientation);
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Learning Platform Application',
-              theme: AppTheme.lightTheme,
-              home: IconStepperDemo(),
-            );
+            return SplashScreen();
+
           },
         );
       },

@@ -1,9 +1,14 @@
+import 'package:assisme/Screens/DashBoardProfileEmployer.dart';
 import 'package:assisme/Screens/HomePageEmployer.dart';
+import 'package:assisme/Screens/MessagesEmployer.dart';
+import 'package:assisme/Screens/RecordCameraEmployer.dart';
 import 'package:assisme/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
+
+import 'Explore_Employer_Screen.dart';
 class HomePageNavBar extends StatefulWidget {
   @override
   _HomePageNavBarState createState() => _HomePageNavBarState();
@@ -245,9 +250,11 @@ class _HomePageNavBarState extends State<HomePageNavBar> {
           //////////////////////////********////////////////
           children: <Widget>[
             HomePageEmployer(),
-
+            Explore_Employer_Screen(),
+            MessagesEmployer(),
+            DashBoardProfileEmployer()
           ],
-          physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
+          //physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
         ),
         floatingActionButton: Container(
           height: 65.0,
@@ -262,7 +269,7 @@ class _HomePageNavBarState extends State<HomePageNavBar> {
                 Navigator.push(context,
                     PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      // child: AppointmentScreen()
+                       child: RecordCameraEmployer()
                     ));
               },
               child: Icon(
