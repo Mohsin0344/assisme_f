@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:assisme/Screens/CreatePostEmployer.dart';
+import 'package:assisme/ScreensEmployee/CreateVideoEmployee.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
@@ -10,12 +11,12 @@ import 'package:path_provider/path_provider.dart';
 import '../size_config.dart';
 import 'package:video_player/video_player.dart';
 
-class RecordCameraEmployer extends StatefulWidget {
+class RecordCameraEmployee extends StatefulWidget {
   @override
-  _RecordCameraEmployerState createState() => _RecordCameraEmployerState();
+  _RecordCameraEmployeeState createState() => _RecordCameraEmployeeState();
 }
 
-class _RecordCameraEmployerState extends State<RecordCameraEmployer> {
+class _RecordCameraEmployeeState extends State<RecordCameraEmployee> {
   CameraController controller;
   List cameras;
   int selectedCameraIdx;
@@ -54,63 +55,63 @@ class _RecordCameraEmployerState extends State<RecordCameraEmployer> {
   Widget build(BuildContext context) {
     return  SafeArea(
       child: Scaffold(
-          body: Stack(
-            children: [
-              Container(
-                child: _cameraPreviewWidget(),
-              ),
-              Positioned(
-                top: 30,
-                left: 20,
-                child: InkWell(
-                  onTap:(){
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: SizeConfig.widthMultiplier * 20,
-                    height: SizeConfig.heightMultiplier * 4,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.white,
-                            ),
+        body: Stack(
+          children: [
+            Container(
+              child: _cameraPreviewWidget(),
+            ),
+            Positioned(
+              top: 30,
+              left: 20,
+              child: InkWell(
+                onTap:(){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: SizeConfig.widthMultiplier * 20,
+                  height: SizeConfig.heightMultiplier * 4,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
                           ),
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            child: Text(
-                              'Back',
-                              style: GoogleFonts.montserrat(
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Text(
+                            'Back',
+                            style: GoogleFonts.montserrat(
                                 color: Colors.white,
                                 fontSize: SizeConfig.textMultiplier * 3,
                                 fontWeight: FontWeight.w300
-                              ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Positioned(
-                right: 20,
-                top: 30,
-                child: Container(
-                  child:
-                  Image.asset('images/Icon ionic-ios-flash.png',
+            ),
+            Positioned(
+              right: 20,
+              top: 30,
+              child: Container(
+                child:
+                Image.asset('images/Icon ionic-ios-flash.png',
                   height: SizeConfig.heightMultiplier * 4,
-                  ),
                 ),
               ),
-              Positioned(
-                bottom: 20,
-                right: 132,
-                child: Container(
+            ),
+            Positioned(
+              bottom: 20,
+              right: 132,
+              child: Container(
                   child: InkWell(
                     onLongPress: (){
                       _startVideoRecording();
@@ -119,56 +120,56 @@ class _RecordCameraEmployerState extends State<RecordCameraEmployer> {
                       _onCapturePressed(context);
                     },
                     child: Image.asset('images/record.png',
-                    height: SizeConfig.heightMultiplier * 12
+                        height: SizeConfig.heightMultiplier * 12
                     ),
                   )
+              ),
+            ),
+            Positioned(
+              bottom: 38,
+              left: 20,
+              child: InkWell(
+                onLongPress: () async{
+                  await  _pickVideo();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreatePostEmployee(videoFromGallery: _videoPlayerController,),
+                    ),
+                  );
+                },
+                onTap: () async {
+                  await _pickImageFromGallery();
+                  print('entereddddddddddd herereee');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreatePostEmployee(imageFromGallery: _image,),
+                    ),
+                  );
+                  print('pick image from camera');
+                },
+                child: Image.asset('images/drawable-xxxhdpi/Icon ionic-md-photos.png',
+                    height: SizeConfig.heightMultiplier * 4
                 ),
               ),
-              Positioned(
-                bottom: 38,
-                left: 20,
-                child: InkWell(
-                  onLongPress: () async{
-                   await  _pickVideo();
-                   Navigator.push(
-                     context,
-                     MaterialPageRoute(
-                       builder: (context) => CreatePostEmployer(videoFromGallery: _videoPlayerController,),
-                     ),
-                   );
-                  },
-                  onTap: () async {
-                    await _pickImageFromGallery();
-                     print('entereddddddddddd herereee');
-                     Navigator.push(
-                       context,
-                       MaterialPageRoute(
-                         builder: (context) => CreatePostEmployer(imageFromGallery: _image,),
-                       ),
-                     );
-                    print('pick image from camera');
-                  },
-                  child: Image.asset('images/drawable-xxxhdpi/Icon ionic-md-photos.png',
-                      height: SizeConfig.heightMultiplier * 4
-                  ),
+            ),
+            Positioned(
+              bottom: 38,
+              right: 20,
+              child: InkWell(
+                onTap: (){
+                  _onSwitchCamera();
+                  print('tapped');
+                },
+                child: Image.asset('images/drawable-xxxhdpi/Icon awesome-camera.png',
+                    height: SizeConfig.heightMultiplier * 4
                 ),
               ),
-              Positioned(
-                bottom: 38,
-                right: 20,
-                child: InkWell(
-                  onTap: (){
-                    _onSwitchCamera();
-                    print('tapped');
-                  },
-                  child: Image.asset('images/drawable-xxxhdpi/Icon awesome-camera.png',
-                      height: SizeConfig.heightMultiplier * 4
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
+      ),
     );
   }
 
@@ -290,7 +291,7 @@ class _RecordCameraEmployerState extends State<RecordCameraEmployer> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CreatePostEmployer(image: path),
+          builder: (context) => CreatePostEmployee(image: path),
         ),
       );
 
@@ -298,7 +299,7 @@ class _RecordCameraEmployerState extends State<RecordCameraEmployer> {
     }
 
 
-  catch (e) {
+    catch (e) {
       print(e);
     }
   }
@@ -310,7 +311,7 @@ class _RecordCameraEmployerState extends State<RecordCameraEmployer> {
     _initCameraController(selectedCamera);
   }
 
-   _cameraPreviewWidget() {
+  _cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
       return const Text(
         'Loading',
@@ -321,9 +322,9 @@ class _RecordCameraEmployerState extends State<RecordCameraEmployer> {
         ),
       );
     }
-      return AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
-        child: CameraPreview(controller),
-      );
+    return AspectRatio(
+      aspectRatio: controller.value.aspectRatio,
+      child: CameraPreview(controller),
+    );
   }
 }

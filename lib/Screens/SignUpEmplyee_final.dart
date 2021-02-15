@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:assisme/Screens/SignInScreen.dart';
 import 'package:assisme/Screens/SignUpEmployee.dart';
 import 'package:assisme/Screens/Signup_employer.dart';
+import 'package:assisme/ScreensEmployee/EmployeeNavBar.dart';
 import 'package:assisme/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -174,7 +175,9 @@ class _SignUpEmployee_finalState extends State<SignUpEmployee_final> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> EmployeeNavBar()));
+                                },
                                 child: Center(
                                   child: Text(
                                     "Continue",

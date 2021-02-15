@@ -43,7 +43,7 @@ class _SignupScreen_employerState extends State<SignupScreen_employer> {
                           height: SizeConfig.heightMultiplier*10,
                           child: InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupScreen_Category()));
+                              Navigator.pop(context);
                             },
                             child: Icon(
                                 Icons.arrow_back

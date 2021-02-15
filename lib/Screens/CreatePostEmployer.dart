@@ -1,19 +1,29 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:assisme/Screens/CustomDialogBox.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:video_player/video_player.dart';
 
 import '../size_config.dart';
 
 class CreatePostEmployer extends StatefulWidget {
  final String image;
-  CreatePostEmployer(this.image);
+ var imageFromGallery;
+ var videoFromGallery;
+ var videoFromCamera;
+  CreatePostEmployer({this.image,
+    this.imageFromGallery,
+    this.videoFromGallery,
+    this.videoFromCamera
+  });
   @override
   _CreatePostEmployerState createState() => _CreatePostEmployerState();
 }
 
 class _CreatePostEmployerState extends State<CreatePostEmployer> {
+  VideoPlayerController _videoPlayerController;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,14 +46,19 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                          padding: EdgeInsets.only(
-                              left: SizeConfig.widthMultiplier * 5
-                          ),
-                        alignment: Alignment.centerLeft,
-                        child: Image.asset('images/Icon metro-cross.png',
-                        height: SizeConfig.heightMultiplier * 4
-                        )
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.widthMultiplier * 5
+                            ),
+                          alignment: Alignment.centerLeft,
+                          child: Image.asset('images/Icon metro-cross.png',
+                          height: SizeConfig.heightMultiplier * 4
+                          )
+                        ),
                       ),
                     ),
                     Expanded(
@@ -158,7 +173,7 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
                       ),
                       Container(
                         margin: EdgeInsets.only(
-                          top: SizeConfig.widthMultiplier * 4
+                          top: SizeConfig.widthMultiplier * 6
                         ),
                         height: SizeConfig.heightMultiplier * 35,
                         child: Row(
@@ -173,7 +188,7 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
                                   borderRadius: BorderRadius.circular(12),
                                   color: Color(0xff2B2A27),
                                 ),
-                                child: Image.file(File(widget.image)),
+                                child: checkForSource()
                               ),
                             ),
                             Expanded(
@@ -198,7 +213,7 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
                                                 width: SizeConfig.widthMultiplier * 8,
                                                 child: Divider(
                                                   color: Color(0xffFFFFFF),
-                                                  thickness: 1.5,
+                                                  thickness: 1,
                                                 ),
                                               ),
                                             ),
@@ -210,8 +225,8 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
                                                   'Write about this job',
-                                                  style: GoogleFonts.montserrat(
-                                                    color: Colors.white,
+                                                  style: GoogleFonts.roboto(
+                                                    color: Color(0xffE8E4E4),
                                                     fontSize: SizeConfig.textMultiplier * 1.4,
                                                     fontWeight: FontWeight.w300
                                                   ),
@@ -220,12 +235,12 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
                                             ),
                                             Expanded(
                                               //fit: FlexFit.loose,
-                                              flex: 2,
+                                              flex: 3,
                                               child: Container(
                                                 //width: SizeConfig.widthMultiplier * 100,
                                                 //width: double.infinity,
                                                 child: Divider(
-                                                  thickness: 1.5,
+                                                  thickness: 1,
                                                   color: Color(0xffFFFFFF),
                                                 ),
                                               ),
@@ -235,9 +250,42 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
                                       ),
                                     ),
                                     Expanded(
-                                      flex: 4,
-                                      child: Container(
+                                      flex: 5,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: SizeConfig.widthMultiplier * 2,
+                                            right: SizeConfig.widthMultiplier * 2,
+                                            bottom: SizeConfig.heightMultiplier * 2
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                            left: SizeConfig.widthMultiplier * 2,
+                                              right: SizeConfig.widthMultiplier * 2,
+                                              bottom: SizeConfig.heightMultiplier * 2
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xff393733),
+                                            borderRadius: BorderRadius.circular(12)
+                                          ),
+                                          child: TextField(
+                                            style: GoogleFonts.montserrat(
+                                              color: Colors.white,
+                                            ),
+                                            cursorColor: Colors.white,
+                                            decoration: InputDecoration(
+                                              filled: false,
+                                              focusedBorder: InputBorder.none,
+                                              enabledBorder: InputBorder.none,
+                                              hintText: 'Enter text here. . .',
+                                              hintStyle: GoogleFonts.robotoMono(
+                                                color: Color(0xffE8E4E4),
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: SizeConfig.textMultiplier * 2
 
+                                              )
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -245,6 +293,91 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
                               ),
                             )
                           ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.heightMultiplier
+                        ),
+                        child: Text(
+                          'Requirements',
+                          style: GoogleFonts.montserrat(
+                            color: Color(0xffE8E4E4)
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: SizeConfig.heightMultiplier
+                        ),
+                        padding: EdgeInsets.only(
+                          top: SizeConfig.heightMultiplier ,
+                          bottom: SizeConfig.heightMultiplier * 2,
+                          left: SizeConfig.widthMultiplier * 2,
+                          right: SizeConfig.widthMultiplier * 2
+                        ),
+                        height: SizeConfig.heightMultiplier * 18,
+                        decoration: BoxDecoration(
+                          color: Color(0xff2B2A27),
+                          borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: TextField(
+                          style: GoogleFonts.montserrat(
+                            color: Colors.white,
+                          ),
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                              filled: false,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              hintText: 'Write your requirements here. . .',
+                              hintStyle: GoogleFonts.robotoMono(
+                                  color: Color(0xffE8E4E4),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: SizeConfig.textMultiplier * 2
+
+                              )
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: InkWell(
+                          onTap: (){
+                            showDialog(context: context,
+                                builder: (BuildContext context){
+                                  return CustomDialogBox();
+                                }
+                            );
+                            print('clicked');
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.heightMultiplier * 2,
+                              left: SizeConfig.widthMultiplier * 16,
+                              right: SizeConfig.widthMultiplier * 16
+                            ),
+                            alignment: Alignment.center,
+                            height: SizeConfig.heightMultiplier * 8,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color(0xffFFDA75),
+                                  Color(0xffFFDA75),
+                                ]
+                              )
+                            ),
+                            child: Text(
+                              'POST',
+                              style: GoogleFonts.roboto(
+                                color: Colors.black,
+                                fontSize: SizeConfig.textMultiplier * 3,
+                                fontWeight: FontWeight.w500
+                              ),
+                            ),
+                          ),
                         ),
                       )
                     ],
@@ -256,6 +389,20 @@ class _CreatePostEmployerState extends State<CreatePostEmployer> {
         ),
       )
     );
+  }
+  checkForSource(){
+    if(widget.image != null && widget.imageFromGallery == null && widget.videoFromGallery == null && widget.videoFromCamera==null){
+      return Image.file(File(widget.image));
+    } else if(widget.image == null && widget.imageFromGallery != null && widget.videoFromGallery == null && widget.videoFromCamera==null){
+      return Image.file(widget.imageFromGallery);
+    }else if(widget.image == null && widget.imageFromGallery == null && widget.videoFromGallery != null && widget.videoFromCamera == null) {
+      // return AspectRatio(
+      //     aspectRatio: widget.videoFromGallery.value.aspectRatio,
+      //     child: VideoPlayer(widget.videoFromGallery));
+      return VideoPlayer(widget.videoFromGallery);
+    } else {
+      return VideoPlayerController.file(widget.videoFromCamera);
+    }
   }
 }
 

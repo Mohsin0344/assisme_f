@@ -121,9 +121,14 @@ class _ConversationEmployerState extends State<ConversationEmployer> {
                         children: [
                           Expanded(
                             child: Container(
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+              },
+                                child: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),

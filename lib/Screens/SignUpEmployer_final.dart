@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:assisme/Screens/HomePageEmployer.dart';
 import 'package:assisme/Screens/SignInScreen.dart';
 import 'package:assisme/Screens/Signup_Category.dart';
 import 'package:assisme/Screens/Signup_employer.dart';
@@ -174,7 +175,9 @@ class _SignUpEmployer_finalState extends State<SignUpEmployer_final> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePageEmployer()));
+                                },
                                 child: Center(
                                   child: Text(
                                     "Continue",
